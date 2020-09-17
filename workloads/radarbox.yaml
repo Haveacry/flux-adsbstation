@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: radarbox-config
+  namespace: default
+data:
+  BEASTHOST: readsb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarbox
+  labels:
+    k8s.app: radarbox
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      k8s.app: radarbox
+  template:
+    metadata:
+      labels:
+        k8s.app: radarbox
+    spec:
+      containers:
+      - name: radarbox
+        envFrom:
+        - configMapRef:
+            name: common-config
+        - configMapRef:
+            name: radarbox-config
+        image: mikenye/radarbox:v0.2.6_build_20180313082038
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 32088
+        - containerPort: 30105
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarbox
+  namespace: default
+spec:
+  ports:
+  - name: radarbox-web
+    port: 32088
+    protocol: TCP
+  - name: mlat-client
+    port: 30105
+    protocol: TCP
