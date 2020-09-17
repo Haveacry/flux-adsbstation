@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: readsb-config
+  namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readsb
+  labels:
+    k8s.app: readsb
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      k8s.app: readsb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        k8s.app: readsb
+    spec:
+      containers:
+      - name: readsb
+        args:
+        - --dcfilter
+        - --device-type=rtlsdr
+        - --fix
+        - --json-location-accuracy=2
+        - --lat=$(LAT)
+        - --lon=$(LONG)
+        - --modeac
+        - --ppm=0
+        - --net
+        - --stats-every=3600
+        - --quiet
+        - --write-json=/run/readsb
+        envFrom:
+        - configMapRef:
+            name: common-config
+        - configMapRef:
+            name: readsb-config
+        image: mikenye/readsb:v3.8.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        - containerPort: 30001
+        - containerPort: 30002
+        - containerPort: 30003
+        - containerPort: 30004
+        - containerPort: 30005
+        - containerPort: 30104
+        - containerPort: 30105
+        securityContext:
+          privileged: true
+        volumeMounts:
+          # CHANGE ME TO YOUR SDR DEVICE PATH
+          - mountPath: "/dev/bus/usb/BUSID/DEVID"
+            name: sdrdev
+      volumes:
+        - name: sdrdev
+          # CHANGE ME TO YOUR SDR DEVICE PATH
+          hostPath:
+            path: /dev/bus/usb/BUSID/DEVID 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readsb
+  namespace: default
+spec:
+  ports:
+  - name: readsb-web
+    port: 8080
+    protocol: TCP
+  - name: readsb-raw-in
+    port: 30001
+    protocol: TCP
+  - name: readsb-raw-out
+    port: 30002
+    protocol: TCP
+  - name: readsb-basestn-out
+    port: 30003
+    protocol: TCP
+  - name: readsb-beast-in
+    port: 30004
+    protocol: TCP
+  - name: readsb-beast-out
+    port: 30005
+    protocol: TCP
+  - name: readsb-beast-in2
+    port: 30104
+    protocol: TCP
+  - name: readsb-mlat-hub
+    port: 30105
+    protocol: TCP
