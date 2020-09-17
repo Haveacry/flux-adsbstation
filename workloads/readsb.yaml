@@ -54,7 +54,7 @@ spec:
         - containerPort: 30104
         - containerPort: 30105
         securityContext:
-          allowPrivilegeEscalation: true
+          privileged: true
         volumeMounts:
           # CHANGE ME TO YOUR SDR DEVICE PATH
           - mountPath: "/dev/bus/usb/001/003"
