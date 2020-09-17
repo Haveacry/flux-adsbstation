@@ -54,16 +54,16 @@ spec:
         - containerPort: 30104
         - containerPort: 30105
         securityContext:
-          privileged: true
+          allowPrivilegeEscalation: true
         volumeMounts:
           # CHANGE ME TO YOUR SDR DEVICE PATH
-          - mountPath: "/dev/bus/usb/BUSID/DEVID"
+          - mountPath: "/dev/bus/usb/001/003"
             name: sdrdev
       volumes:
         - name: sdrdev
           # CHANGE ME TO YOUR SDR DEVICE PATH
           hostPath:
-            path: /dev/bus/usb/BUSID/DEVID 
+            path: /dev/bus/usb/001/003
 ---
 apiVersion: v1
 kind: Service
