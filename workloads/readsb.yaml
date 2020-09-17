@@ -12,7 +12,6 @@ metadata:
   labels:
     k8s.app: readsb
 spec:
-  replicas: 0
   selector:
     matchLabels:
       k8s.app: readsb
