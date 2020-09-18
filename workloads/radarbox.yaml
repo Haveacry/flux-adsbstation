@@ -14,7 +14,6 @@ metadata:
   labels:
     k8s.app: radarbox
 spec:
-  replicas: 0
   selector:
     matchLabels:
       k8s.app: radarbox
