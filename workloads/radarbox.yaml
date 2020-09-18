@@ -5,7 +5,7 @@ metadata:
   name: radarbox-config
   namespace: default
 data:
-  BEASTHOST: readsb
+  BEASTHOST: readsb.default.svc.cluster.local
 ---
 apiVersion: apps/v1
 kind: Deployment
