@@ -80,7 +80,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-  name: readsb
+  name: piaware
   namespace: default
 spec:
   rules:
