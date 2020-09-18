@@ -29,8 +29,8 @@ spec:
             name: common-config
         - configMapRef:
             name: fr24feed-config
-        image: mikenye/fr24feed:1.0.25-3_armhf_arm64
-        imagePullPolicy: IfNotPresent
+        image: mikenye/fr24feed:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8754
         - containerPort: 30003

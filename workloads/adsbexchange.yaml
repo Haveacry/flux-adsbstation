@@ -2,52 +2,48 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: radarbox-config
+  name: adsbexchange-config
   namespace: default
 data:
-  BEASTHOST: readsb.default.svc.cluster.local
+  BEASTHOST: readsb
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: radarbox
+  name: adsbexchange
   labels:
-    k8s.app: radarbox
+    k8s.app: adsbexchange
 spec:
   selector:
     matchLabels:
-      k8s.app: radarbox
+      k8s.app: adsbexchange
   template:
     metadata:
       labels:
-        k8s.app: radarbox
+        k8s.app: adsbexchange
     spec:
       containers:
-      - name: radarbox
+      - name: adsbexchange
         envFrom:
         - configMapRef:
             name: common-config
         - configMapRef:
-            name: radarbox-config
-        image: mikenye/radarbox:latest_nohealthcheck
+            name: adsbexchange-config
+        image: mikenye/adsbexchange:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 32088
         - containerPort: 30105
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: radarbox
+  name: adsbexchange
   namespace: default
 spec:
   ports:
-  - name: radarbox-web
-    port: 32088
-    protocol: TCP
   - name: mlat-client
     port: 30105
     protocol: TCP
   selector:
-    k8s.app: radarbox
+    k8s.app: adsbexchange
   type: ClusterIP

@@ -42,8 +42,8 @@ spec:
             name: common-config
         - configMapRef:
             name: readsb-config
-        image: mikenye/readsb:v3.8.3
-        imagePullPolicy: IfNotPresent
+        image: mikenye/readsb:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         - containerPort: 30001
