@@ -96,3 +96,6 @@ spec:
   - name: readsb-mlat-hub
     port: 30105
     protocol: TCP
+  selector:
+    k8s.app: readsb
+  type: ClusterIP

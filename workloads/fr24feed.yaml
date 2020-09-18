@@ -56,3 +56,6 @@ spec:
   - name: fr24feed-mlat-client
     port: 30105
     protocol: TCP
+  selector:
+    k8s.app: fr24feed
+  type: ClusterIP

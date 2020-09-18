@@ -49,3 +49,6 @@ spec:
   - name: mlat-client
     port: 30105
     protocol: TCP
+  selector:
+    k8s.app: radarbox
+  type: ClusterIP

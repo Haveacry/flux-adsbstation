@@ -71,3 +71,6 @@ spec:
   - name: piaware-mlat-client
     port: 30105
     protocol: TCP
+  selector:
+    k8s.app: piaware
+  type: ClusterIP
